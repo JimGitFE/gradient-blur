@@ -1,5 +1,5 @@
-import { ResolutionBlur } from "./Component";
-import { interpolateHandles } from "./interpolate-handles";
+import { ResolutionBlur } from "./Component"
+import { resampling } from "./resampling"
 
-export { ResolutionBlur, interpolateHandles };
-export default ResolutionBlur;
+export { ResolutionBlur, resampling }
+export default ResolutionBlur

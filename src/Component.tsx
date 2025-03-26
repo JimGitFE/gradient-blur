@@ -1,30 +1,47 @@
-import React from "react";
+import React from "react"
+import { resampling } from "./resampling"
 
 interface Props {
-  resolution: number;
+   resolution: number
 }
 
 function ResolutionBlur({ resolution }: Props) {
-  return (
-    // Contianer
-    <div className="blur-container">
-      {Array(resolution)
-        .fill(0)
-        .map((_, i) => (
-          <div
-            //   style={{ backdropFilter: `blur(${i * 0.5}px)` }}
-            style={{
-              backdropFilter: `blur(${i * 0.5}px)`,
-              maskImage: `linear-gradient(to right,transparent ${
-                i * (100 / resolution) - 2 // feathering: 2
-              }%, black ${i * (100 / resolution)}%, black ${
-                (i + 1) * (100 / resolution)
-              }%, transparent ${(i + 1) * (100 / resolution) + 2}%)`,
-            }}
-          />
-        ))}
-    </div>
-  );
+   console.log("asd sampeing ")
+   // polated points
+   const points = resampling({
+      intervals: resolution,
+      points: [
+         { x: 0, y: 0 },
+         { x: 100, y: 100 },
+      ],
+   })
+   console.log(points)
+   return (
+      // Contianer
+      <div className="blur-container">
+         {Array(resolution)
+            .fill(0)
+            .map((_, i) => {
+               const steps = `${
+                  i * (100 / resolution) - 2 // feathering: 2
+               }%, black ${i * (100 / resolution)}%, black ${
+                  (i + 1) * (100 / resolution)
+               }%, transparent ${(i + 1) * (100 / resolution) + 2}%`
+               const linear = `linear-gradient(to right,${steps})`
+               // const radial = `radial-gradient(circle, ${steps})`;
+
+               return (
+                  <div
+                     //   style={{ backdropFilter: `blur(${i * 0.5}px)` }}
+                     style={{
+                        backdropFilter: `blur(${i * 0.5}px)`,
+                        maskImage: linear,
+                     }}
+                  />
+               )
+            })}
+      </div>
+   )
 }
 /*
   // TODO:
@@ -42,4 +59,4 @@ function ResolutionBlur({ resolution }: Props) {
   - 
   */
 
-export { ResolutionBlur };
+export { ResolutionBlur }
