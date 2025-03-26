@@ -1,27 +1,29 @@
 {
-  "name": "gradient-blur",
-  "version": "0.9.1",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/JimGitFE/gradient-blur"
-  },
-  "description": "npm manager",
-  "main": "build/index.js",
-  "types": "build/index.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "JimGitFE",
-  "license": "ISC",
-  "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
-  },
-  "devDependencies": {
-    "@types/react": "^19.0.12",
-    "@types/react-dom": "^19.0.4",
-    "prettier": "^3.5.3",
-    "typescript": "^5.8.2"
-  }
+   "name": "gradient-blur",
+   "version": "0.9.1",
+   "type": "module",
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/JimGitFE/gradient-blur"
+   },
+   "description": "npm manager",
+   "main": "build/index.js",
+   "types": "build/index.d.ts",
+   "scripts": {
+      "build": "tsc",
+      "link": "npm run build && npm link gradient-blur",
+      "test": "echo \"Error: no test specified\" && exit 1"
+   },
+   "author": "JimGitFE",
+   "license": "ISC",
+   "dependencies": {
+      "react": "^19.0.0",
+      "react-dom": "^19.0.0"
+   },
+   "devDependencies": {
+      "@types/react": "^19.0.12",
+      "@types/react-dom": "^19.0.4",
+      "prettier": "^3.5.3",
+      "typescript": "^5.8.2"
+   }
 }
