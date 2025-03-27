@@ -43,7 +43,7 @@ function resampling<O extends Point>({ intervals, points }: Props<O>): Point[] {
 
       // Aggregate points within the left bin
       let binAggLeft = points.filter(({ x }) => x > (binXLeft || 0) && x <= targetX)
-      if (!(binAggLeft.length > 0)) binAggLeft = [{ x: targetX, y: points[indx].y } as O] // closets (down-sampling)
+      if (!(binAggLeft.length > 0)) binAggLeft = [points[indx]] // closets (down-sampling)
       const binAvgLeft = binAggLeft.reduce(
          ([poss, blurs], { x, y }) => [poss + x / binAggLeft.length, blurs + y / binAggLeft.length],
          [0, 0],
@@ -51,7 +51,7 @@ function resampling<O extends Point>({ intervals, points }: Props<O>): Point[] {
 
       // Aggregate points within the right bin
       let binAggRight = points.filter(({ x }) => x <= (binXRight || 100) && x > targetX)
-      if (!(binAggRight.length > 0)) binAggRight = [{ x: targetX, y: points[indx + 1]?.y ?? points[indx].y } as O] // closest (down-sampling)
+      if (!(binAggRight.length > 0)) binAggRight = [points[indx + 1] ?? points[indx]] // closest (down-sampling)
       const binAvgRight = binAggRight.reduce(
          ([poss, blurs], { x, y }) => [poss + x / binAggRight.length, blurs + y / binAggRight.length],
          [0, 0],
@@ -59,7 +59,7 @@ function resampling<O extends Point>({ intervals, points }: Props<O>): Point[] {
 
       // interpolation (linear)
       const normal = (targetX - binAvgLeft[0]) / (binAvgRight[0] - binAvgLeft[0] || 1) // division by 0
-      const y = normal < 1 ? binAvgLeft[1] + normal * (binAvgRight[1] - binAvgLeft[1]) : binAvgLeft[1]
+      const y = normal < 1 && normal > 0 ? binAvgLeft[1] + normal * (binAvgRight[1] - binAvgLeft[1]) : binAvgLeft[1]
 
       return { x: targetX, y }
    })

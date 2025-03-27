@@ -3,43 +3,42 @@ import { resampling } from "./resampling"
 
 interface Props {
    resolution: number
+   handles?: Handle[]
+   type?: "linear" | "radial"
 }
 
-function ResolutionBlur({ resolution }: Props) {
-   console.log("asd sampeing ")
+const DEFAULT_HANDLES: Handle[] = [
+   { pos: 0, blur: 10 },
+   { pos: 5, blur: 30 },
+   { pos: 100, blur: 100 },
+]
+
+function ResolutionBlur({ resolution, handles = DEFAULT_HANDLES, type = "linear" }: Props) {
    // polated points
-   const points = resampling({
-      intervals: resolution,
-      points: [
-         { x: 0, y: 0 },
-         { x: 100, y: 100 },
-      ],
-   })
-   console.log(points)
+   const remapped = handles.map(({ pos, blur }) => ({ x: pos, y: blur }))
+   const resampled = resampling({ intervals: resolution, points: remapped }) // to intervals
+
+   console.log(resampled)
    return (
       // Contianer
       <div className="blur-container">
-         {Array(resolution)
-            .fill(0)
-            .map((_, i) => {
-               const steps = `${
-                  i * (100 / resolution) - 2 // feathering: 2
-               }%, black ${i * (100 / resolution)}%, black ${
-                  (i + 1) * (100 / resolution)
-               }%, transparent ${(i + 1) * (100 / resolution) + 2}%`
-               const linear = `linear-gradient(to right,${steps})`
-               // const radial = `radial-gradient(circle, ${steps})`;
+         {resampled.map(({ x, y: blur }, i) => {
+            // feathering: 2
+            const steps = `transparent ${x - 2}%, black ${x}%, black ${resampled[i + 1]?.x ?? 100}%, transparent ${resampled[i + 1]?.x ?? 100 + 2}%`
+            const linear = `linear-gradient(to right,${steps})`
+            const radial = `radial-gradient(circle, ${steps})`
 
-               return (
-                  <div
-                     //   style={{ backdropFilter: `blur(${i * 0.5}px)` }}
-                     style={{
-                        backdropFilter: `blur(${i * 0.5}px)`,
-                        maskImage: linear,
-                     }}
-                  />
-               )
-            })}
+            console.log({ blur, linear })
+            return (
+               <div
+                  key={i}
+                  style={{
+                     backdropFilter: `blur(${blur}px)`,
+                     maskImage: type == "linear" ? linear : radial,
+                  }}
+               />
+            )
+         })}
       </div>
    )
 }
