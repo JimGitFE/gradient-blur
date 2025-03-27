@@ -5,6 +5,7 @@ interface Props {
    resolution: number
    handles?: Handle[]
    type?: "linear" | "radial"
+   feathering?: number | `${number}%`
 }
 
 const DEFAULT_HANDLES: Handle[] = [
@@ -13,7 +14,7 @@ const DEFAULT_HANDLES: Handle[] = [
    { pos: 100, blur: 100 },
 ]
 
-function ResolutionBlur({ resolution, handles = DEFAULT_HANDLES, type = "linear" }: Props) {
+function ResolutionBlur({ resolution, handles = DEFAULT_HANDLES, type = "linear", feathering = "120%" }: Props) {
    // polated points
    const remapped = handles.map(({ pos, blur }) => ({ x: pos, y: blur }))
    const resampled = resampling({ intervals: resolution, points: remapped }) // to intervals
@@ -23,12 +24,13 @@ function ResolutionBlur({ resolution, handles = DEFAULT_HANDLES, type = "linear"
       // Contianer
       <div className="blur-container">
          {resampled.map(({ x, y: blur }, i) => {
-            // feathering: 2
-            const steps = `transparent ${x - 2}%, black ${x}%, black ${resampled[i + 1]?.x ?? 100}%, transparent ${resampled[i + 1]?.x ?? 100 + 2}%`
+            const minDx = Math.min(resampled[i].x - (resampled[i - 1]?.x ?? 100), (resampled[i + 1]?.x ?? 200) - resampled[i].x)
+            const feather = typeof feathering == "string" ? (minDx * parseFloat(feathering)) / 100 : feathering
+
+            const steps = `transparent ${x - feather}%, black ${x}%, black ${resampled[i + 1]?.x ?? 100}%, transparent ${(resampled[i + 1]?.x ?? 100) + feather}%`
             const linear = `linear-gradient(to right,${steps})`
             const radial = `radial-gradient(circle, ${steps})`
 
-            console.log({ blur, linear })
             return (
                <div
                   key={i}
