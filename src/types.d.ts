@@ -1,18 +1,12 @@
 interface Point {
-    /** Position */
-    x: number
-    /** Amount (blur) */
-    y: number
- }
- 
- interface Props {
-    /** sampling rate / interval (low => Aliasing) */
-    intervals: number
-    /** Data points  */
-    points: Point[]
- }
+   /** Position */
+   x: number
+   /** Amount (blur) */
+   y: number
+}
 
- interface Handle {
-     pos: number
-    blur: number
- }
+/** inPU */
+interface Handle {
+   pos: number
+   blur: number
+}
