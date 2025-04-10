@@ -1,5 +1,6 @@
-import React from "react"
 import { resampling } from "./resampling"
+// import "./styles.css"
+import styles from "./styles.module.scss"
 
 interface BaseProps {
    resolution: number
@@ -11,12 +12,12 @@ interface BaseProps {
 
 interface LinearProps extends BaseProps {
    type: "linear"
-   angle?: never
+   angle?: number | `${number}deg`
 }
 
 interface RadialProps extends BaseProps {
    type: "radial"
-   angle?: number | `${number}deg`
+   angle?: never
 }
 
 type Props = LinearProps | RadialProps
@@ -42,7 +43,8 @@ function ResolutionBlur({
 
    return (
       // Contianer
-      <div className="blur-container">
+      // <div className={"blur-container"}>
+      <div className={styles["blur-container"]}>
          {resampled.map(({ x, y: blur }, i) => {
             // dx to closest neighbor
             const minDx = Math.min(resampled[i].x - (resampled[i - 1]?.x ?? 100), (resampled[i + 1]?.x ?? 200) - resampled[i].x)
