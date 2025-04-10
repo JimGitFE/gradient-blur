@@ -44,7 +44,7 @@ function ResolutionBlur({
    return (
       // Contianer
       // <div className={"blur-container"}>
-      <div className={styles["blur-container"]}>
+      <div className={styles.container}>
          {resampled.map(({ x, y: blur }, i) => {
             // dx to closest neighbor
             const minDx = Math.min(resampled[i].x - (resampled[i - 1]?.x ?? 100), (resampled[i + 1]?.x ?? 200) - resampled[i].x)

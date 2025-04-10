@@ -1,4 +1,4 @@
-.blur-handle {
+.container {
    position: absolute;
    top: 0;
    left: 0;
@@ -8,7 +8,7 @@
 }
 
 /* Masked grad step */
-.blur-handle > div {
+.container > div {
    position: absolute;
    top: 0;
    left: 0;
