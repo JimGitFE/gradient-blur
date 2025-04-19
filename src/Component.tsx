@@ -1,5 +1,4 @@
 import { resampling } from "./resampling"
-// import "./styles.css"
 import styles from "./styles.module.scss"
 
 interface BaseProps {
@@ -20,8 +19,6 @@ interface RadialProps extends BaseProps {
    angle?: never
 }
 
-type Props = LinearProps | RadialProps
-
 const DEFAULT_HANDLES: Handle[] = [
    { pos: 0, blur: 10 },
    { pos: 5, blur: 30 },
@@ -36,7 +33,7 @@ function ResolutionBlur({
    angle: upAngle = "0deg",
    position,
    scale,
-}: Props) {
+}: LinearProps | RadialProps) {
    // polated points
    const remapped = handles.map(({ pos, blur }) => ({ x: pos, y: blur }))
    const resampled = resampling({ intervals: resolution, points: remapped }) // to intervals
@@ -44,7 +41,7 @@ function ResolutionBlur({
    return (
       // Contianer
       // <div className={"blur-container"}>
-      <div className={styles.container}>
+      <div className={`${styles.container} container`}>
          {resampled.map(({ x, y: blur }, i) => {
             // dx to closest neighbor
             const minDx = Math.min(resampled[i].x - (resampled[i - 1]?.x ?? 100), (resampled[i + 1]?.x ?? 200) - resampled[i].x)
