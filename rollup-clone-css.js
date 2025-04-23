@@ -26,7 +26,7 @@ function cloneCss(inputOptions) {
                return acc + result.css.toString()
             }, "")
 
-            // 3 Write the combined CSS to a single file
+            // 3 Write the combined CSS to a single file (!needs buildStart to work)
             fs.writeFileSync(options.out, injectCSS)
             if (options.cloneToIn) {
                fs.writeFileSync(path.join(options.in, "styles.css"), injectCSS)

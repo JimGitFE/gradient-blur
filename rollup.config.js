@@ -6,28 +6,6 @@ import { string } from "rollup-plugin-string"
 // Internal
 import { cloneCss } from "./rollup-clone-css.js"
 
-function injectStringIntoCss() {
-   return {
-      name: "inject-string-into-css",
-      generateBundle(_, bundle) {
-         const cssFileName = "styles.css" // Name of the CSS file to modify
-         const stringToInject = "/* Injected String */"
-
-         // Find the CSS file in the bundle
-         for (const fileName in bundle) {
-            console.log(fileName)
-            if (fileName.endsWith(cssFileName)) {
-               const asset = bundle[fileName]
-               if (asset.type === "asset" && typeof asset.source === "string") {
-                  // Inject the string into the CSS content
-                  asset.source = `${stringToInject}\n${asset.source}`
-               }
-            }
-         }
-      },
-   }
-}
-
 export default [
    {
       input: "src/index.ts", // main entry
@@ -44,7 +22,7 @@ export default [
          cloneCss({
             in: "./src",
             out: "./build/styles.css",
-            cloneToIn: true,
+            // cloneToIn: true,
          }),
          typescript(),
          postcss({
