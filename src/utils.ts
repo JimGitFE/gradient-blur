@@ -8,7 +8,7 @@ import styles from "./styles.module.scss" // Import your SCSS module
 
 import { ResolutionBlur } from "./Component"
 
-declare const __CSS__: string // put this once near the top
+declare const __BUILD_CSS__: string // put this once near the top
 
 // from samplingto data points
 //  Point[] to Point
@@ -30,7 +30,7 @@ export async function componentHTML(props: React.ComponentProps<typeof Resolutio
    const cssString = await loadCssAsString()
 
    return `
-         <style>${__CSS__}</style>
+         <style>${__BUILD_CSS__}</style>
          <style>${styles.container}</style>
          ${html}
       `

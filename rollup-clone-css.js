@@ -42,7 +42,7 @@ function cloneCss(inputOptions) {
          if (!id.endsWith(".ts") && !id.endsWith(".js")) return null
 
          return {
-            code: code.replace(/\b__CSS__\b/g, JSON.stringify(injectCSS)),
+            code: code.replace(/\b__BUILD_CSS__\b/g, JSON.stringify(injectCSS)),
             map: null, // keeps things fast
          }
       },
