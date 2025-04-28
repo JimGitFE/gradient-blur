@@ -1,0 +1,54 @@
+# Publish package to npm
+# - Check package.json version
+# - Build project
+# - Publish Build to npm
+
+name: "Version Release"
+
+on:
+   # Triggers ONLY when you press the green "Publish release" button (not on draft‑save)
+   release:
+      types: [published]
+
+# Grant minimal permissions. `id-token` enables npm provenance
+permissions:
+   contents: read
+   id-token: write
+   packages: write
+
+jobs:
+   publish:
+      # Skip prereleases (remove this line if you WANT prerelease publishes)
+      if: ${{ !github.event.release.prerelease }}
+
+      runs-on: ubuntu-latest
+
+      steps:
+         - name: Checkout source
+           uses: actions/checkout@v4
+
+         - name: Set up Node
+           uses: actions/setup-node@v4
+           with:
+              node-version: "20"
+              registry-url: "https://registry.npmjs.org/"
+              cache: "npm"
+
+         - name: Install dependencies
+           run: npm ci
+
+         # —— optional: run your tests ——
+         - name: Test
+           run: npm test --if-present
+
+         # —— optional: build step ——
+         - name: Build
+           run: npm run build --if-present
+
+         - name: Publish to npm
+           # The secret must be an "Automation" token created on npmjs.com
+           env:
+              NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+           run: |
+              # "--access public" needed only for scoped packages
+              npm publish --access public --provenance

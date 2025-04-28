@@ -30,7 +30,7 @@ export default [
             // If you want to embed CSS in JS, set `inject: true`.
             extract: false, // External .css file, use `extract: true`.
          }),
-         injectStringIntoCss(), // Inject string into CSS
+         // injectStringIntoCss(), // Inject string into CSS
       ],
 
       external: ["react", "react-dom"],
