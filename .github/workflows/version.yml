@@ -27,13 +27,25 @@ jobs:
          - name: Checkout source
            uses: actions/checkout@v4
 
+         # ! use: package.lock.json
+         # - name: Set up Node
+         #   uses: actions/setup-node@v4
+         #   with:
+         #      node-version: "20"
+         #      registry-url: "https://registry.npmjs.org/"
+         #      cache: "npm"
+
          - name: Setup Node.js
            uses: actions/setup-node@v2
            with:
               node-version: "20.10"
 
+         # ! use: package.lock.json
+         # - name: Install dependencies
+         #   run: npm ci
+
          - name: Install dependencies
-           run: npm ci
+           run: npm install
 
          # —— optional: build step ——
          - name: Build
