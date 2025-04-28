@@ -39,8 +39,6 @@ function ResolutionBlur({
    const resampled = resampling({ intervals: resolution, points: remapped }) // to intervals
 
    return (
-      // Contianer
-      // <div className={"blur-container"}>
       <div className={`${styles.container} container`}>
          {resampled.map(({ x, y: blur }, i) => {
             // dx to closest neighbor

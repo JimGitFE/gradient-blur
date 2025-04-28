@@ -14,10 +14,12 @@ interface Props<O extends Point> {
    points: O[]
 }
 
-// upsample via interpolation (edges: Nearest Neighbor)
-// downsample aggregate (Binning) between intermediates
-// resampling: new data points from existing samples new coords (involces interpolation)
 /** Interpolate to intervals (at each res step, interpolate blur)
+ *
+ * - Upsample via interpolation (edges: Nearest Neighbor)
+ * - Downsample aggregate (Binning) between intermediates
+ * - Resampling: new data points from existing samples new coords (involces interpolation)
+ *
  * @return `O`
  */
 function resampling<O extends Point>({ intervals, points }: Props<O>): Point[] {

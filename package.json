@@ -1,12 +1,12 @@
 {
    "name": "gradient-blur",
+   "description": "Generate smooth gradient blurs with CSS / export as html",
    "version": "0.9.1",
    "type": "module",
    "repository": {
       "type": "git",
       "url": "git+https://github.com/JimGitFE/gradient-blur"
    },
-   "description": "npm manager",
    "main": "build/index.js",
    "types": "build/index.d.ts",
    "scripts": {
